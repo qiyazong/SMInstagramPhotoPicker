@@ -19,16 +19,16 @@ class SMProgressView: UIView {
         progressLayer.lineCap = "round"
         progressLayer.strokeStart = 0
         progressLayer.strokeEnd = 0
-        progressLayer.fillColor = UIColor(red: 38/255.0, green: 38/255.0, blue: 38/255.0, alpha: 0.56).cgColor
-        progressLayer.strokeColor = UIColor.white.cgColor
-        progressLayer.lineWidth = 4.0
-        progressLayer.frame = CGRect(origin: CGPoint.zero, size: self.frame.size)
-        //let centers = CGPoint(x: 30.0, y: 30.0)
-        //let path = UIBezierPath(arcCenter: centers, radius: 30.0, startAngle: CGFloat(0), endAngle: CGFloat(1), clockwise: true)
+        progressLayer.fillColor =   UIColor.clear.cgColor
+        progressLayer.strokeColor = UIColor(red: 38/255.0, green: 38/255.0, blue: 38/255.0, alpha: 0.56).cgColor
+        progressLayer.lineWidth = 3.0
+        progressLayer.frame = bounds.insetBy(dx: 6, dy: 6)
         
-        progressLayer.path = UIBezierPath(roundedRect: progressLayer.frame, cornerRadius: 30).cgPath
+        progressLayer.path = UIBezierPath(roundedRect: progressLayer.bounds, cornerRadius: progressLayer.bounds.width / 2.0).cgPath
         //progressLayer.path = path.cgPath
-        self.layer.addSublayer(progressLayer)
+        layer.addSublayer(progressLayer)
+        
+        layer.cornerRadius = 3.0
         
     }
     

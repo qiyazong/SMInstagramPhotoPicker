@@ -21,10 +21,11 @@ class SMAlbumViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        albumView.frame = CGRect(origin: CGPoint.zero, size: view.frame.size)
+        albumView.frame = view.bounds
         albumView.tableView.reloadData()
     }
     
+    override var prefersStatusBarHidden: Bool {return true}
 }
 
 

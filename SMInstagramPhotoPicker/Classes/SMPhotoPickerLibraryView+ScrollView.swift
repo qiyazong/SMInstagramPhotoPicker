@@ -12,8 +12,8 @@ import UIKit
 extension SMPhotoPickerLibraryView {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == self.scrollView {
-            self.squareMask.isHidden = false
+        if scrollView == scrollView {
+            squareMask.isHidden = false
             
             //print("Off Set:", scrollView.contentOffset)
         }
@@ -21,35 +21,35 @@ extension SMPhotoPickerLibraryView {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
-        if scrollView == self.scrollView{
-            self.squareMask.isHidden = true
-            self.scaleRect = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
+        if scrollView == scrollView{
+            squareMask.isHidden = true
+            scaleRect = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
-        if scrollView == self.scrollView{
-            self.squareMask.isHidden = true
-            self.scaleRect = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
+        if scrollView == scrollView{
+            squareMask.isHidden = true
+            scaleRect = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
         }
         
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        if scrollView == self.scrollView {
-            self.squareMask.isHidden = false
+        if scrollView == scrollView {
+            squareMask.isHidden = false
         }
     }
     
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         
-        if scrollView == self.scrollView{
+        if scrollView == scrollView{
             //print(scale)
             self.scale = scale
-            self.squareMask.isHidden = true
-            self.scaleRect = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
+            squareMask.isHidden = true
+            scaleRect = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
         }
     }
     

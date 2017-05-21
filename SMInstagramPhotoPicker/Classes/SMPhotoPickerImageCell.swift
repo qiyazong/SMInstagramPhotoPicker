@@ -17,16 +17,16 @@ class SMPhotoPickerImageCell: UICollectionViewCell {
         
         didSet {
             
-            self.imageView.image = image
+            imageView.image = image
         }
     }
     
     override var isSelected: Bool {
         didSet{
-            if self.isSelected {
-                self.mk.isHidden = false
+            if isSelected {
+                mk.isHidden = false
             }else{
-                self.mk.isHidden = true
+                mk.isHidden = true
             }
         
         }
@@ -34,7 +34,7 @@ class SMPhotoPickerImageCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.isSelected = false
+        isSelected = false
         
         // Initialization code
 //        

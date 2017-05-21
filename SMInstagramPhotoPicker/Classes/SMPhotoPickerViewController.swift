@@ -9,12 +9,12 @@
 import UIKit
 import Photos
 
-public protocol SMPhotoPickerViewControllerDelegate {
+public protocol SMPhotoPickerViewControllerDelegate: AnyObject{
     func didFinishPickingPhoto(image: UIImage, meteData: [String: Any])
     func didCancelPickingPhoto()
 }
 
-public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumViewDelegate {
+class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var arrowImageView: UIImageView!
@@ -24,10 +24,15 @@ public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumVi
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
-    let albumView = SMPhotoPickerAlbumView.instance()
+    var albumView = SMPhotoPickerAlbumView.instance()
     let library: SMPhotoPickerLibraryView = SMPhotoPickerLibraryView.instance()
     
-    public var delegate: SMPhotoPickerViewControllerDelegate? = nil
+    public weak var delegate: SMPhotoPickerViewControllerDelegate? = nil
+    var filterMode: Bool = false
+    
+    deinit {
+        print("Picker deinit")
+    }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -39,9 +44,7 @@ public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumVi
             }
         }
         
-        albumView.delegate = self
-        
-        library.frame = CGRect(origin: CGPoint.zero, size: scrollView.frame.size)
+        library.frame = scrollView.frame
         library.collectionView.reloadData()
         scrollView.addSubview(library)
         
@@ -50,58 +53,97 @@ public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumVi
         let si = selectAlbumButton.titleLabel?.intrinsicContentSize
         selectAlbumButton.updateConstraint(attribute: .width, value: (si?.width)!)
         
-        let downIcon = UIImage(named: "arrowDown.png", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
         
-        arrowImageView.image = downIcon
-        albumView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height - 44.0)
-        //print(albumView.frame)
-        view.addSubview(self.albumView)
+        arrowImageView.image = UIImage(named: "arrowDown.png", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        
+        dealAlbum()
+        
+        let item = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        item.tintColor = UIColor.black
+        navigationItem.backBarButtonItem = item
     }
     
-    @IBAction func showAlbums(_ sender: UIButton) {
+    
+    private func dealAlbum(){
+        
+        albumView.delegate = self
+        albumView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
+        view.addSubview(self.albumView)
+        
+    }
+    
+    @IBAction func showAlbum(_ sender: UITapGestureRecognizer) {
         
         // handle show album list
         if !selectAlbumButton.isSelected {
             selectAlbumButton.isSelected = true
             
-            //print(self.bottomToolsView.frame)
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                var rect = self.bottomToolsView.frame
-                rect.origin.y = self.view.frame.height
-                self.bottomToolsView.frame = rect
-            })
-            
-            UIView.animate(withDuration: 1, delay: 0.3, usingSpringWithDamping: 12, initialSpringVelocity: 12, options: .layoutSubviews, animations: {
-                self.albumView.frame = CGRect(x: 0, y: 44, width: self.view.frame.width, height: self.view.frame.height - 44.0)
-                self.arrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
-                
-                self.cancelButton.isHidden = true
-                self.nextButton.isHidden = true
-            }) { (isComplete) in
-                
-                
-            }
+            showAlbumView()
         }else {
-            // handle hidn album list.
-            UIView.animate(withDuration: 0.3, animations: {
-                self.albumView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height - 44.0)
-                self.arrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * 2))
-                self.cancelButton.isHidden = false
-                self.nextButton.isHidden = false
-            })
-            
             selectAlbumButton.isSelected = false
-            UIView.animate(withDuration: 1, delay: 0.3, usingSpringWithDamping: 12, initialSpringVelocity: 12, options: .layoutSubviews, animations: {
-                
-                var rect = self.bottomToolsView.frame
-                rect.origin.y = self.view.frame.height - 44.0
-                self.bottomToolsView.frame = rect
-            }, completion: { (isComplete) in
-                
-            })
-            
+            hidnAlbumView()
         }
+        
+    }
+    
+    @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
+    
+    private func showAlbumView() {
+        
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, animations: {
+            
+            weak var me = self
+            me?.toolbarBottomConstraint.constant = -44.0
+            me?.view.layoutIfNeeded()
+        })
+        
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0.3,
+                       usingSpringWithDamping: 12,
+                       initialSpringVelocity: 12,
+                       options: .layoutSubviews,
+                       animations: {
+                        
+                        weak var me = self
+                        
+                        me?.albumView.frame = CGRect(x: 0, y: 0, width:  self.view.frame.width, height:  self.view.frame.height)
+                        me?.arrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+                        
+                        me?.cancelButton.isHidden = true
+                        me?.nextButton.isHidden = true
+                        me?.view.layoutIfNeeded()
+        },
+                       completion:nil)
+    }
+    
+    private func hidnAlbumView() {
+        
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, animations: {
+            
+            weak var me = self
+            me?.albumView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height - 44.0)
+            me?.arrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * 2))
+            me?.cancelButton.isHidden = false
+            me?.nextButton.isHidden = false
+            me?.view.layoutIfNeeded()
+        })
+        
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0.3,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .layoutSubviews,
+                       animations: {
+                        weak var me = self
+                        me?.toolbarBottomConstraint.constant = 0
+                        me?.view.layoutIfNeeded()
+        },
+                       completion: nil
+        )
     }
     
     @IBAction func next(_ sender: UIButton) {
@@ -114,7 +156,7 @@ public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumVi
             })
             
             alert.addAction(cancel)
-            self.present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
             
         }else{
             
@@ -128,8 +170,23 @@ public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumVi
             mateData["location"] = ass.location
             mateData["sourceType"] = ass.sourceType
             
-            self.delegate?.didFinishPickingPhoto(image: image, meteData: mateData)
-            self.dismiss(animated: true, completion: nil)
+            if filterMode {
+                
+                let b = Bundle(for: self.classForCoder)
+                let sb = UIStoryboard(name: "Picker", bundle: b)
+                if let filter = sb.instantiateViewController(withIdentifier: "Filter") as? FilterViewController {
+                    
+                    filter.image = image
+                    filter.info = mateData
+                    navigationController?.show(filter, sender: nil)
+                }
+                
+            }else{
+                
+                delegate?.didFinishPickingPhoto(image: image, meteData: mateData)
+                dismiss(animated: true, completion: nil)
+                
+            }
         }
     }
     
@@ -138,19 +195,7 @@ public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumVi
         dismiss(animated: true, completion: nil)
     }
     
-    override public func loadView() {
-        
-        if let view = UINib(nibName: "SMPhotoPickerViewController", bundle: Bundle(for: self.classForCoder)).instantiate(withOwner: self, options: nil).first as? UIView {
-            view.frame = UIScreen.main.bounds
-            self.view = view
-            //print("SMPhotoPickerViewController", self.view.frame)
-        }
-    }
-    
-    override public var prefersStatusBarHidden : Bool {
-        
-        return true
-    }
+    override public var prefersStatusBarHidden : Bool {return true}
     
     func didSeletctAlbum(album: AlbumModel) {
         
@@ -160,31 +205,17 @@ public class SMPhotoPickerViewController: UIViewController, SMPhotoPickerAlbumVi
         
         library.images = album.assets
         library.collectionView.reloadData()
-        library.collectionView.selectItem(at: IndexPath.init(row: 0, section: 0), animated: false, scrollPosition: .bottom)
+        library.collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .bottom)
         album.fetchFirstImage { (image) in
-            self.library.setupFirstLoadingImageAttrabute(image: image)
+            weak var me = self
+            me?.library.setupFirstLoadingImageAttrabute(image: image)
             
         }
         
-        // handle hidn album list.
-        UIView.animate(withDuration: 0.3, animations: {
-            self.albumView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height - 44.0)
-            self.arrowImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * 2))
-            self.cancelButton.isHidden = false
-            self.nextButton.isHidden = false
-        })
-        
-        selectAlbumButton.isSelected = false
-        UIView.animate(withDuration: 1, delay: 0.3, usingSpringWithDamping: 12, initialSpringVelocity: 12, options: .layoutSubviews, animations: {
-            
-            var rect = self.bottomToolsView.frame
-            rect.origin.y = self.view.frame.height - 44.0
-            self.bottomToolsView.frame = rect
-        }, completion: { (isComplete) in
-            
-        })
+        hidnAlbumView()
         
     }
+    
     
     func getAuthorizationStatue(authorized: @escaping (Bool) -> Void) {
         

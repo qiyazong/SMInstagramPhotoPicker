@@ -32,7 +32,8 @@ class SMPhotoPickAlbumViewCell: UITableViewCell {
     func updateAlbumInfo() {
         
         model?.fetchFirstImage(returnImage: { (image) in
-            self.logoView.image = image
+            weak var me = self
+            me?.logoView.image = image
         })
         nameLabel.text = model?.name
         countLabel.text = "\(String(describing: model!.count)) photos"

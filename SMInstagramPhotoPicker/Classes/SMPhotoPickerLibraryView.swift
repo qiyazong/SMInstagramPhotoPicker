@@ -66,9 +66,9 @@ class SMPhotoPickerLibraryView: UIView, UICollectionViewDelegate, UICollectionVi
         currentAsset = allPhotosAlbum.assets.firstObject
         
         allPhotosAlbum.fetchFirstImage { (image) in
-            
-            self.setupFirstLoadingImageAttrabute(image: image)
-            self.isOnDownloadingImage = false
+            weak var me = self
+            me?.setupFirstLoadingImageAttrabute(image: image)
+            me?.isOnDownloadingImage = false
             //print(self.scrollView.zoomScale)
         }
         
@@ -78,13 +78,13 @@ class SMPhotoPickerLibraryView: UIView, UICollectionViewDelegate, UICollectionVi
     
     func setupFirstLoadingImageAttrabute(image: UIImage) {
         
-        self.imageView.image = image
-        let se = self.cacuclateContentSize(original: image.size, target: self.scrollView.frame.size)
-        self.scrollView.contentSize = se
-        self.imageView.frame = CGRect(origin: CGPoint.zero, size: se)
-        self.scaleRect = CGRect(origin: CGPoint.zero, size: scrollView.frame.size)
-        self.scrollView.zoomScale = 1.0
-        self.scale = 1.0
+        imageView.image = image
+        let se = cacuclateContentSize(original: image.size, target: self.scrollView.frame.size)
+        scrollView.contentSize = se
+        imageView.frame = CGRect(origin: CGPoint.zero, size: se)
+        scaleRect = CGRect(origin: CGPoint.zero, size: scrollView.frame.size)
+        scrollView.zoomScale = 1.0
+        scale = 1.0
         
     }
     
@@ -93,12 +93,12 @@ class SMPhotoPickerLibraryView: UIView, UICollectionViewDelegate, UICollectionVi
         if original.width > original.height {
             let scale = original.height / target.height
             let w = original.width / scale
-            self.imageScale = scale
+            imageScale = scale
             s = CGSize(width: w, height: target.height)
         }else{
             let scale = original.width / target.width
             let w = original.height / scale
-            self.imageScale = scale
+            imageScale = scale
             s = CGSize(width: target.width, height: w)
         }
         

@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol SMPhotoPickerAlbumViewDelegate {
+protocol SMPhotoPickerAlbumViewDelegate: AnyObject {
     
     func didSeletctAlbum(album: AlbumModel)
     
@@ -21,7 +21,7 @@ class SMPhotoPickerAlbumView: UIView, UITableViewDataSource, UITableViewDelegate
     
     let albums: [AlbumModel] = AlbumModel.listAlbums()
     
-    var delegate: SMPhotoPickerAlbumViewDelegate? = nil
+    weak var delegate: SMPhotoPickerAlbumViewDelegate? = nil
     
     static func instance() -> SMPhotoPickerAlbumView {
         
@@ -33,7 +33,7 @@ class SMPhotoPickerAlbumView: UIView, UITableViewDataSource, UITableViewDelegate
     
     func initialize() {
         
-        tableView.register(UINib(nibName: "SMPhotoPickAlbumViewCell", bundle: Bundle(for: self.classForCoder)), forCellReuseIdentifier: "SMPhotoPickerAlbumView")
+        tableView.register(UINib(nibName: "SMPhotoPickAlbumViewCell", bundle: Bundle(for: classForCoder)), forCellReuseIdentifier: "SMPhotoPickerAlbumView")
         
     }
     

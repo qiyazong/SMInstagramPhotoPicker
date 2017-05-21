@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SMInstagramPhotoPicker'
-  s.version          = '0.3.8'
+  s.version          = '0.5.2'
   s.summary          = 'SMInstagramPhotoPicker, A instagram photos picker viewcontroller using swift 3.1.'
 
 # This description is used to generate tags and improve search results.
@@ -35,8 +35,8 @@ A iOS 10.0 or later.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'SMInstagramPhotoPicker/Classes/**/*.swift'
-  s.resources = ['SMInstagramPhotoPicker/Resources/*.png', 'SMInstagramPhotoPicker/Resources/*.xib']
-  s.module_name = 'SMInstagramPhotoPicker'
+  s.resources = ['SMInstagramPhotoPicker/Resources/*.png', 'SMInstagramPhotoPicker/Resources/*.xib', 'SMInstagramPhotoPicker/Resources/*.storyboard']
+  s.module_name = 'SMImagePicker'
   # s.resource_bundles = {
   #   'SMColor' => ['SMColor/Assets/*.png']
   # }

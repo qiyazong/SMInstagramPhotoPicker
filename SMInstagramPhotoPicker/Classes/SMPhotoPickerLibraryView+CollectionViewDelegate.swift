@@ -55,18 +55,19 @@ extension SMPhotoPickerLibraryView {
         op.isNetworkAccessAllowed = true
         op.progressHandler = {(progress, err, pointer, info) in
             
+            weak var me = self
             DispatchQueue.main.async {
                 
-                if self.progressView.isHidden {
-                    self.progressView.isHidden = false
+                if (me?.progressView.isHidden)! {
+                    me?.progressView.isHidden = false
                 }
                 
-                self.progressView.progress = CGFloat(progress)
+                me?.progressView.progress = CGFloat(progress)
                 
                 if progress == 1.0 {
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+0.3, execute: {
-                        self.progressView.progress = 0.0
-                        self.progressView.isHidden = true
+                        me?.progressView.progress = 0.0
+                        me?.progressView.isHidden = true
                     })
                     
                 }
@@ -76,18 +77,19 @@ extension SMPhotoPickerLibraryView {
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             
+            weak var me = self
             
-            self.currentImageRequestID = PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: op) { (image, info) in
+            me?.currentImageRequestID = PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: op) { (image, info) in
                 
                 if let isInCloud = info?[PHImageResultIsInCloudKey] as? Bool {
                     
-                    self.isOnDownloadingImage = isInCloud
+                    me?.isOnDownloadingImage = isInCloud
                 }
                 
                 if image != nil {
                     //self.isOnDownloadingImage = false
                     DispatchQueue.main.async {
-                        self.setupFirstLoadingImageAttrabute(image: image!)
+                        me?.setupFirstLoadingImageAttrabute(image: image!)
                     }
                 }
             }

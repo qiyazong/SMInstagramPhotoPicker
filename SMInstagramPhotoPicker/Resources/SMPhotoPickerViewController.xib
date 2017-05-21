@@ -4,11 +4,12 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SMPhotoPickerViewController" customModule="SMInstagramPhotosPicker" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController" customModule="SMInstagramPhotosPicker" customModuleProvider="target">
             <connections>
                 <outlet property="arrowImageView" destination="hXh-mx-zsS" id="Aoj-TZ-fvZ"/>
                 <outlet property="bottomToolsView" destination="2nv-sM-wQa" id="VaS-Oq-tO2"/>
@@ -63,7 +64,7 @@
                                 <action selector="showAlbums:" destination="-1" eventType="touchUpInside" id="H0c-NI-7Vq"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hXh-mx-zsS">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="hXh-mx-zsS">
                             <rect key="frame" x="260.66666666666669" y="17" width="10" height="10"/>
                             <color key="tintColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -157,4 +158,7 @@
             <point key="canvasLocation" x="-134.5" y="50.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="arrowDown" width="256" height="256"/>
+    </resources>
 </document>

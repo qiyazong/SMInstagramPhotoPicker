@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SMPhotoPickerLibraryView" customModule="SMInstagramPhotosPicker" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SMPhotoPickerLibraryView" customModule="SMImagePicker" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -45,28 +45,28 @@
                         <constraint firstAttribute="width" secondItem="eZc-Ex-33b" secondAttribute="height" multiplier="1:1" id="ieN-XL-iDD"/>
                     </constraints>
                 </imageView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7wF-Rq-obZ" customClass="SMProgressView" customModule="SMInstagramPhotosPicker" customModuleProvider="target">
-                    <rect key="frame" x="177" y="158" width="60" height="60"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7wF-Rq-obZ" customClass="SMProgressView" customModule="SMImagePicker" customModuleProvider="target">
+                    <rect key="frame" x="167" y="167" width="80" height="80"/>
+                    <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="0.74339148116438358" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="60" id="BST-ab-9QN"/>
-                        <constraint firstAttribute="height" constant="60" id="kuw-5t-P1l"/>
+                        <constraint firstAttribute="width" constant="80" id="0DM-yG-086"/>
+                        <constraint firstAttribute="height" constant="80" id="N35-MY-MaS"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="7wF-Rq-obZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="158" id="7eN-Bf-4KR"/>
                 <constraint firstItem="eZc-Ex-33b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="7g6-hS-rlg"/>
                 <constraint firstItem="NqI-xg-Wlg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7kZ-0O-8bd"/>
                 <constraint firstItem="WD5-CD-pQp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GhI-9w-yYi"/>
                 <constraint firstAttribute="trailing" secondItem="WD5-CD-pQp" secondAttribute="trailing" id="K9h-uC-cHH"/>
                 <constraint firstItem="WD5-CD-pQp" firstAttribute="top" secondItem="NqI-xg-Wlg" secondAttribute="bottom" constant="1" id="R8a-xe-UH2"/>
-                <constraint firstItem="7wF-Rq-obZ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ULS-sT-XzR"/>
                 <constraint firstAttribute="trailing" secondItem="NqI-xg-Wlg" secondAttribute="trailing" id="Ur9-d4-r95"/>
                 <constraint firstItem="NqI-xg-Wlg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WHi-GU-j89"/>
+                <constraint firstItem="7wF-Rq-obZ" firstAttribute="centerY" secondItem="NqI-xg-Wlg" secondAttribute="centerY" id="c5x-7J-heG"/>
                 <constraint firstItem="eZc-Ex-33b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eql-zx-sfa"/>
                 <constraint firstAttribute="trailing" secondItem="eZc-Ex-33b" secondAttribute="trailing" id="inq-zG-tOr"/>
+                <constraint firstItem="7wF-Rq-obZ" firstAttribute="centerX" secondItem="NqI-xg-Wlg" secondAttribute="centerX" id="n5l-hO-N5m"/>
                 <constraint firstAttribute="bottom" secondItem="WD5-CD-pQp" secondAttribute="bottom" id="zQr-ZM-hCU"/>
             </constraints>
             <connections>
